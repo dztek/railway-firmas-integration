@@ -1,9 +1,13 @@
 import express from 'express';
-const app = express();
+import { build } from '@firmas/build';
+import context from './src/context.js';
+import config from './src/config.js';
+import * as source from './src/index.js';
 
-app.get('/', (req, res) => {
-  res.send('Choo Choo! Welcome to your Express app 🚅');
-})
+const app = express();
+const firmas = build({ config }, { context, framework: 'express' });
+
+app.use(firmas(source));
 
 app.get('/version', (req, res) => {
   res.json({
@@ -11,10 +15,6 @@ app.get('/version', (req, res) => {
     version: process.env.LOGICLOUD_VAR
   });
 });
-
-app.get("/json", (req, res) => {
-  res.json({ "Choo Choo": "Welcome to your Express app 🚅" });
-})
 
 const port = process.env.PORT || 3000;
 

@@ -38,7 +38,12 @@ export const checkout = (ctx) => async (_, res) => {
     cancel_url,
   });
 
-  res.redirect(303, session.url);
+  // TODO: res redirect seems not to be allowed on Railway
+  // res.redirect(303, session.url);
+  res.json({
+    name: 'checkout',
+    session,
+  });
 };
 
 export const success = () => (req, res) => {

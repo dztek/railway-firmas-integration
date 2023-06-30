@@ -9,7 +9,7 @@ export const test = ctx => (req, res, next) => {
   });
 };
 
-export const checkout = (ctx) => async (_, res) => {
+export const checkout = (ctx) => async (req, res) => {
   if (!ctx.stripe) {
     res.status(500).json({ error: 'MISSING_STRIPE_CONFIG' });
     return;
@@ -38,12 +38,7 @@ export const checkout = (ctx) => async (_, res) => {
     cancel_url,
   });
 
-  // TODO: res redirect seems not to be allowed on Railway
-  // res.redirect(303, session.url);
-  res.json({
-    name: 'checkout',
-    session,
-  });
+  res.redirect(303, session.url);
 };
 
 export const success = () => (req, res) => {
